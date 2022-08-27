@@ -24,3 +24,4 @@ after_success:
   - docker push loui4/udagram-api-feed:v1
   - docker push loui4/udagram-api-user:v1
   - docker push loui4/reverseproxy:v1
+  - docker push loui4/udagram-frontend:v1
