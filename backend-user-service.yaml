@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user
+spec:
+  selector:
+    name: udagram-user-pod
+    tier: backend
+    app: udagram
+  ports:
+    - port: 80
+      targetPort: 8080

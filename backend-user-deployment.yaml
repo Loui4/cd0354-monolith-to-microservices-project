@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-user-deploy
+  labels:
+    name: backend-user-deploy
+    tier: backend
+    app: udagram
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: backend-user-pod
+      tier: backend
+      app: udagram
+  template:
+    metadata:
+      name: backend-user-pod
+      labels:
+        name: backend-user-pod
+        tier: backend
+        app: udagram
+    spec:
+      containers:
+        - name: backend-user
+          image: loui4/udagram-api-user:v1
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: udagram-secrets
+            - configMapRef:
+                name: udagram-cluster-config
+          ports:
+            - containerPort: 8080
+              name: "user"

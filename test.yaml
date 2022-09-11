@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverseproxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: reverseproxy
+  template:
+    metadata:
+      name: reverseproxy
+      labels:
+        name: reverseproxy
+    spec:
+      containers:
+        - name: alpine
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+              name: "ngix"
+

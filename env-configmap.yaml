@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  name: udagram-cluster-config
+data:
+  AWS_BUCKET: "monolith-refactor-app"
+  AWS_REGION: "us-east-1"
+  AWS_PROFILE: "default"
+  URL: "http://localhost:8100"

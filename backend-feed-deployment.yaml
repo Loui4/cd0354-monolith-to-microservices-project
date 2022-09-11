@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-feed-deploy
+  labels:
+    name: backend-feed-deploy
+    tier: backend
+    app: udagram
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: backend-feed-pod
+      tier: backend
+      app: udagram
+  template:
+    metadata:
+      name: backend-feed-pod
+      labels:
+        name: backend-feed-pod
+        tier: backend
+        app: udagram
+    spec:
+      containers:
+        - name: udagram-feed
+          image: loui4/udagram-api-feed:v1
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: udagram-secrets
+            - configMapRef:
+                name: udagram-cluster-config
+          ports:
+            - containerPort: 8080
+              name: "feed"

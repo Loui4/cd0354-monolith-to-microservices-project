@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udagram-frontend-deploy
+  labels:
+    name: udagram-frontend-deploy
+    tier: frontend
+    app: udagram
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: udagram-frontend-pod
+      tier: frontend
+      app: udagram
+  template:
+    metadata:
+      name: udagram-frontend-pod
+      labels:
+        name: udagram-frontend-pod
+        tier: frontend
+        app: udagram
+    spec:
+      containers:
+        - name: udagram-frontend
+          image: loui4/udagram-frontend:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: "frontend"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-node
+spec:
+  selector:
+    name: udagram-frontend-pod
+    tier: frontend
+    app: udagram
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30016
+
+

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverse-proxy-deploy
+  labels:
+    name: reverse-proxy
+    app: udagram
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: reverse-proxy-pod
+      app: udagram
+      tier: backend
+  template:
+    metadata:
+      name: reverse-proxy-pod
+      labels:
+        name: reverse-proxy-pod
+        app: udagram
+        tier: backend
+    spec:
+      containers:
+        - name: reverse-proxy
+          image: loui4/reverseproxy:v4
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: "proxy"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: reverse-node
+spec:
+  selector:
+    name: reverse-proxy-pod
+    app: udagram
+    tier: backend
+  type: NodePort
+  ports:
+    - targetPort: 80
+      nodePort: 30015
+      port: 80
+
